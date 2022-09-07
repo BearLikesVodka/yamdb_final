@@ -60,7 +60,7 @@ jobs:
 
     steps:
     - name: Executing remote ssh commands to deploy
-      uses: appleboy/ssh_action@master
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
@@ -77,7 +77,7 @@ jobs:
           echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-          sudo docker compose pull 
+          sudo docker compose pull
           sudo docker compose up -d
           sudo docker compose exec web python manage.py migrate
           sudo docker compose exec web python manage.py loaddata fixtures.json
