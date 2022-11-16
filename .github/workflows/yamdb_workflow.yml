@@ -48,9 +48,9 @@ jobs:
     - name: Push to Docker Hub
       uses: docker/build-push-action@v2
       with:
-        context: api_yamdb/
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/api_yamdb:${{ github.ref_name }}
+        context: api_yamdb/Dockerfile
+        tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
 
   deploy:
     name: Deploy on production server
@@ -69,7 +69,7 @@ jobs:
         script: |
           sudo docker-compose stop
           sudo docker-compose rm web
-          sudo docker image pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
+          sudo docker image pull ${{ secrets.DOCKER_USERNAME }}${{ github.event.repository.name }}:latest
           touch .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
