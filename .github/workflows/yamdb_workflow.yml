@@ -78,6 +78,8 @@ jobs:
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
           sudo docker-compose up -d
+          sudo docker-compose exec -T web python3 manage.py makemigrations
+          sudo docker-compose exec -T web python3 manage.py migrate
     
   send_message:
     name: Send deploy status message
